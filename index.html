@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Resume Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">Resume Builder</h1>
+            <p class="text-gray-600 mt-2">Create a professional resume in minutes.</p>
+        </header>
+        <div class="absolute top-2 right-4 text-sm text-gray-600 italic font-semibold">
+         Powered by MightyCode
+    </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Form Section -->
+            <div class="lg:w-1/2 bg-white p-6 rounded-lg shadow-lg" id="form-section">
+                <h2 class="text-2xl font-semibold mb-6 border-b pb-4">Enter Your Details</h2>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">Download PDF</button>
+                    <button id="download-txt" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">Download TXT</button>
+                    <button id="reset-form" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">Reset Form</button>
+                </div>
+
+                <form id="resume-form" class="space-y-6">
+                    <!-- Personal Information -->
+                    <div class="p-4 border rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="name" placeholder="Full Name" class="p-2 border rounded-md w-full" data-preview="preview-name">
+                            <input type="text" id="title" placeholder="Professional Title" class="p-2 border rounded-md w-full" data-preview="preview-title">
+                            <input type="email" id="email" placeholder="Email Address" class="p-2 border rounded-md w-full">
+                            <input type="tel" id="phone" placeholder="Phone Number" class="p-2 border rounded-md w-full">
+                            <input type="text" id="location" placeholder="City, Country" class="p-2 border rounded-md w-full">
+                            <input type="url" id="website" placeholder="Website/Portfolio URL" class="p-2 border rounded-md w-full">
+                            <input type="url" id="linkedin" placeholder="LinkedIn Profile URL" class="p-2 border rounded-md w-full">
+                            <input type="url" id="github" placeholder="GitHub Profile URL" class="p-2 border rounded-md w-full">
+                        </div>
+                    </div>
+
+                    <!-- Summary Section -->
+                    <div class="p-4 border rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">Summary</h3>
+                        <textarea id="summary" placeholder="Professional Summary..." class="p-2 border rounded-md w-full h-24" data-preview="preview-summary"></textarea>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="p-4 border rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">Skills</h3>
+                        <textarea id="skills" placeholder="Enter skills, separated by commas..." class="p-2 border rounded-md w-full h-24" data-preview="preview-skills"></textarea>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <div class="p-4 border rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Professional Experience</h3>
+                            <button type="button" id="add-experience" class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-900 text-sm ml-4">+</button>
+                        </div>
+                        <div id="experience-entries" class="space-y-4">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+
+                    <!-- Internship Section -->
+                    <div class="p-4 border rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Internships</h3>
+                            <button type="button" id="add-internship" class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-900 text-sm ml-4">+</button>
+                        </div>
+                        <div id="internship-entries" class="space-y-4">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="p-4 border rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Education</h3>
+                            <button type="button" id="add-education" class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-900 text-sm ml-4">+</button>
+                        </div>
+                        <div id="education-entries" class="space-y-4">
+                             <!-- JS will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Projects -->
+                    <div class="p-4 border rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Projects</h3>
+                            <button type="button" id="add-project" class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-900 text-sm ml-4">+</button>
+                        </div>
+                        <div id="project-entries" class="space-y-4">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Resume Preview -->
+            <div class="lg:w-1/2 lg:sticky top-8 self-start">
+                <div id="resume-preview-container" class="bg-white p-8 rounded-lg shadow-lg border">
+                    <div id="resume-preview">
+                        <!-- Header -->
+                        <div class="text-left pb-4 mb-4 border-b-2 border-amber-500">
+                            <h1 id="preview-name" class="text-4xl font-bold text-gray-900 uppercase">YOUR NAME</h1>
+                            <p id="preview-title" class="text-xl text-gray-800 font-medium mt-1 uppercase">PROFESSIONAL TITLE</p>
+                            <p id="preview-contact" class="text-sm text-gray-600 mt-2 flex flex-wrap items-center gap-x-3 gap-y-1"></p>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Summary</h2>
+                            <p id="preview-summary" class="text-gray-700 preview-section-content pt-2"></p>
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Skills</h2>
+                            <div id="preview-skills" class="flex flex-wrap gap-2 preview-section-content pt-2">
+                                <!-- Skills will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Experience -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Professional Experience</h2>
+                            <div id="preview-experience" class="space-y-4 preview-section-content pt-2">
+                                <!-- Experience entries will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Internships -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Internships</h2>
+                            <div id="preview-internship" class="space-y-4 preview-section-content pt-2">
+                                <!-- Internship entries will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Education</h2>
+                            <div id="preview-education" class="space-y-4 preview-section-content pt-2">
+                                <!-- Education entries will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Projects -->
+                        <div class="preview-section mb-6">
+                            <h2 class="text-xl font-bold border-b-2 border-amber-500 pb-1 mb-3 uppercase">Projects</h2>
+                            <div id="preview-projects" class="space-y-4 preview-section-content pt-2">
+                                <!-- Project entries will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
